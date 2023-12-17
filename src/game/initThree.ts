@@ -18,15 +18,16 @@ function initRenderer() {
 }
 
 function initScene() {
-  const light = new THREE.AmbientLight(0x404040) // soft white light
+  // strong yellow light
+  const light = new THREE.PointLight(0xffffff, 1, 100)
   scene.add(light)
 }
 
 function initCamera() {
-  setCameraPosition({ x: 0, y: 0, z: 20 })
+  setCameraPosition({ x: 0, y: 0, z: 50 })
 }
 
-export function initTree() {
+export function initThree() {
   initRenderer()
   initScene()
   initCamera()
