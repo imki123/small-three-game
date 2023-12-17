@@ -9,3 +9,9 @@ A small game with three.js
   pnpm i
   pnpm dev
 ```
+
+## How to deploy
+
+```bash
+  pnpm gh-deploy
+```
