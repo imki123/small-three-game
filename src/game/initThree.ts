@@ -24,7 +24,7 @@ function initScene() {
 }
 
 function initCamera() {
-  setCameraPosition({ x: 0, y: 0, z: 50 })
+  setCameraPosition({ x: 0, y: 0, z: 30 })
 }
 
 export function initThree() {
