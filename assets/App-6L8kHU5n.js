@@ -1,0 +1,1 @@
+import{j as e,L as t}from"./index-wwzQroqq.js";function o(){return e.jsxs(e.Fragment,{children:[e.jsx("h1",{children:"Small three game"}),e.jsx(t,{to:"/game",style:{color:"white",padding:"8px",background:"blue",fontSize:"20px",textDecoration:"none"},children:"Go to the game"})]})}export{o as default};
