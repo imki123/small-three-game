@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { camera, initTree, scene } from './initThree'
 import { renderRepeatedlySceneAndCamera } from './utils'
 
-export function Game() {
+export default function Game() {
   function addDefaultCube(size = 1) {
     const boxGeometry = new THREE.BoxGeometry(size, size, size)
     const coloredMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 })

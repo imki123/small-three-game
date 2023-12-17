@@ -1,6 +1,11 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-export function App() {
+export default function App() {
+  useEffect(() => {
+    document.querySelector('#three')!.innerHTML = ''
+  })
+
   return (
     <>
       <h1>Small three game</h1>
