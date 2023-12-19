@@ -9,22 +9,61 @@ console.log('# this is game.ts')
 initThree().then(() => {
   // create objectives
   const greenCube = addDefaultCube(8)
-  greenCube.position.x = -20
   greenCube.material.color.setHex(0x00ff00)
+  greenCube.position.x = -20
+  greenCube.position.y = 4
 
   const blueCube = addDefaultCube(8)
   blueCube.material.color.setHex(0x0000ff)
+  blueCube.position.y = 4
 
-  const blackCube = addDefaultCube(8)
-  blackCube.position.x = 20
+  const whiteCube = addDefaultCube(8)
+  whiteCube.material.color.setHex(0xffffff)
+  whiteCube.position.x = 20
+  whiteCube.position.y = 4
 
   const yellowSphere = addDefaultSphere(1)
-  yellowSphere.position.z = 30
   yellowSphere.material.color.setHex(0xeeee55)
+  yellowSphere.position.y = 1
+  yellowSphere.position.z = 30
+  greenCube.position.y = 4
 
   const welcomeText = addDefaultText('안녕하세요~')
   welcomeText.position.x = 5
   welcomeText.position.y = 10
+
+  // TODO: light and shadow test
+
+  //Create a DirectionalLight and turn on shadows for the light
+  const light = new THREE.DirectionalLight(0xffffff, 1)
+  light.position.set(50, 50, 50)
+  light.castShadow = true // default false
+  light.shadow.mapSize.width = 5120 // default
+  light.shadow.mapSize.height = 5120 // default
+  light.shadow.camera.near = 0.5 // default
+  light.shadow.camera.far = 500 // default
+  light.shadow.camera.visible = true // default false
+  light.shadow.camera.scale.set(10, 10, 10) // size
+
+  scene.add(light)
+
+  scene.add(new THREE.CameraHelper(light.shadow.camera))
+
+  scene.children.forEach((child) => {
+    if (child instanceof THREE.Mesh) {
+      child.castShadow = true
+      child.receiveShadow = true
+    }
+  })
+
+  //Create a plane that receives shadows (but does not cast them)
+  const planeGeometry = new THREE.PlaneGeometry(80, 100, 32, 32)
+  planeGeometry.rotateX(-Math.PI / 2)
+  planeGeometry.translate(0, 0, 0)
+  const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 })
+  const plane = new THREE.Mesh(planeGeometry, planeMaterial)
+  plane.receiveShadow = true
+  scene.add(plane)
 
   window.addEventListener('keydown', setKeyStatusWhenKeyDown)
   window.addEventListener('keyup', setKeyStatusWhenKeyUp)
@@ -81,19 +120,19 @@ function moveMaterial(material: THREE.Mesh) {
       material.position.y = material.position.y - MIN_UNIT
     }
   }
-  // WARN: 점프 후에 내려왔을 때 포지션이 0이 아닌 경우 0으로 맞춰주는 코드
+  // WARN: 점프 후에 내려왔을 때 포지션이 1이 아닌 경우 1로 맞춰주기
   if (isJumping === undefined) {
-    if (material.position.y !== 0) {
+    if (material.position.y !== 1) {
       material.position.y =
-        material.position.y - MIN_UNIT < 0 ? 0 : material.position.y - MIN_UNIT
+        material.position.y - MIN_UNIT < 1 ? 1 : material.position.y - MIN_UNIT
     }
   }
 
   // move camera following material
   camera.position.set(
     material.position.x,
-    material.position.y + 10,
-    material.position.z + 10
+    material.position.y + 20,
+    material.position.z + 20
   )
   camera.lookAt(
     material.position.x,

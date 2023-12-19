@@ -19,6 +19,7 @@ export const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 )
+export const light = new THREE.DirectionalLight(0xffffff, 1)
 
 export async function initThree() {
   console.log('# this is initThree.ts')
@@ -32,6 +33,10 @@ export async function initThree() {
 function initRenderer() {
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.setClearColor(0xffffff, 1) // color, opacity
+
+  renderer.shadowMap.enabled = true
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap // default THREE.PCFShadowMap
+
   document.querySelector('#app')!.innerHTML = ''
   document.querySelector('#app')!.appendChild(renderer.domElement)
 }
