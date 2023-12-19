@@ -23,7 +23,7 @@ initThree().then(() => {
   yellowSphere.material.color.setHex(0xeeee55)
 
   const welcomeText = addDefaultText('안녕하세요~')
-  welcomeText.position.x = 10
+  welcomeText.position.x = 5
   welcomeText.position.y = 10
 
   window.addEventListener('keydown', setKeyStatusWhenKeyDown)
@@ -41,6 +41,7 @@ let isPressedArrowUp = false
 let isPressedArrowDown = false
 let isPressedArrowLeft = false
 let isPressedArrowRight = false
+let isPressedSpace = false
 let isJumping: boolean | undefined = undefined
 
 const MIN_UNIT = 0.2
@@ -57,6 +58,18 @@ function moveMaterial(material: THREE.Mesh) {
   if (isPressedArrowRight) {
     material.position.x += MIN_UNIT
   }
+  if (isPressedSpace) {
+    if (isJumping === undefined) {
+      isJumping = true
+      setTimeout(() => {
+        isJumping = false
+        setTimeout(() => {
+          isJumping = undefined
+        }, 300)
+      }, 300)
+    }
+  }
+
   if (isJumping === true) {
     const maxHeight = 1000
     if (material.position.y + MIN_UNIT <= maxHeight) {
@@ -89,15 +102,23 @@ function moveMaterial(material: THREE.Mesh) {
   )
 }
 
+let isMovingLeft = true
 function moveTextRepeatedly(text?: THREE.Mesh) {
   if (!text) {
     return
   }
-
-  if (text.position.x > -25) {
-    text.position.x -= 0.1
+  if (isMovingLeft) {
+    if (text.position.x > -25) {
+      text.position.x -= 0.1
+    } else {
+      isMovingLeft = false
+    }
   } else {
-    text.position.x = 10
+    if (text.position.x < 5) {
+      text.position.x += 0.1
+    } else {
+      isMovingLeft = true
+    }
   }
 }
 
@@ -122,7 +143,7 @@ function addDefaultSphere(radius = 0.5) {
 function addDefaultText(text: string) {
   const textGeometry = new TextGeometry(text, {
     font: defaultFont,
-    size: 10, // font size
+    size: 3, // font size
     height: 0.1, // font depth
     curveSegments: 12,
     bevelEnabled: false,
@@ -146,6 +167,9 @@ export function setKeyStatusWhenKeyDown(e: KeyboardEvent) {
   }
   if (e.key === 'ArrowRight') {
     isPressedArrowRight = true
+  }
+  if (e.key === ' ') {
+    isPressedSpace = true
   }
   if (e.key === ' ' && isJumping === undefined) {
     isJumping = true
@@ -171,6 +195,9 @@ export function setKeyStatusWhenKeyUp(e: KeyboardEvent) {
   }
   if (e.key === 'ArrowRight') {
     isPressedArrowRight = false
+  }
+  if (e.key === ' ') {
+    isPressedSpace = false
   }
 }
 
