@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { setCameraPosition } from './utils'
 import WebGL from 'three/addons/capabilities/WebGL.js'
-import { Font, FontLoader, TextGeometry } from 'three/examples/jsm/Addons.js'
+import { Font, FontLoader } from 'three/examples/jsm/Addons.js'
 
 if (!WebGL.isWebGLAvailable()) {
   const warning = WebGL.getWebGLErrorMessage()
@@ -10,6 +10,7 @@ if (!WebGL.isWebGLAvailable()) {
 }
 
 // create global variables
+export let defaultFont: Font
 export const renderer = new THREE.WebGLRenderer()
 export const scene = new THREE.Scene()
 export const camera = new THREE.PerspectiveCamera(
@@ -19,11 +20,20 @@ export const camera = new THREE.PerspectiveCamera(
   1000
 )
 
+export async function initThree() {
+  console.log('# this is initThree.ts')
+  await loadFont()
+  initRenderer()
+  initScene()
+  initCamera()
+  return true
+}
+
 function initRenderer() {
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.setClearColor(0xffffff, 1) // color, opacity
-  document.querySelector('#three')!.innerHTML = ''
-  document.querySelector('#three')!.appendChild(renderer.domElement)
+  document.querySelector('#app')!.innerHTML = ''
+  document.querySelector('#app')!.appendChild(renderer.domElement)
 }
 
 function initScene() {
@@ -35,20 +45,15 @@ function initCamera() {
   camera.lookAt(0, 0, 0)
 }
 
-export let defaultFont: Font | undefined
 async function loadFont(): Promise<Font> {
   const loader = new FontLoader()
   return new Promise((resolve) => {
+    if (defaultFont) {
+      return resolve(defaultFont)
+    }
     loader.load('fonts/Noto Sans KR_Regular.json', function (font) {
       defaultFont = font
       return resolve(font)
     })
   })
-}
-
-export function initThree() {
-  initRenderer()
-  initScene()
-  initCamera()
-  loadFont()
 }
