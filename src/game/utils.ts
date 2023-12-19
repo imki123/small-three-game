@@ -1,11 +1,15 @@
 import { camera, renderer, scene } from './initThree'
 
-export function renderRepeatedlySceneAndCamera(callback?: () => void) {
+let animationFrameId = 0
+export function startRender(callback?: () => void) {
   callback?.()
-  requestAnimationFrame(() => {
-    renderRepeatedlySceneAndCamera(callback)
-  })
   renderer.render(scene, camera)
+  animationFrameId = requestAnimationFrame(() => {
+    startRender(callback)
+  })
+}
+export function cancelRender() {
+  cancelAnimationFrame(animationFrameId)
 }
 
 export function setCameraPosition({
