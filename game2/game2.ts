@@ -1,8 +1,8 @@
 import * as THREE from 'three'
 import Cannon from 'cannon'
-import { initCamera, initRenderer, initScene } from '../initThree'
+import { initCamera, initRenderer, initScene } from '../src/initThree'
 import { OrbitControls } from 'three/examples/jsm/Addons.js'
-import { setCameraAspectWhenResize } from '../game'
+import { setCameraAspectWhenResize } from '../src/game'
 
 // Cannon.js 초기화
 const world = new Cannon.World()
@@ -143,42 +143,40 @@ function syncPhysicsToGraphics(
 }
 
 // 키보드 이벤트
-function setKeyStatusWhenKeyDown(event: KeyboardEvent) {
-  switch (event.key) {
-    case 'ArrowUp':
-      isPressedArrowUp = true
-      break
-    case 'ArrowDown':
-      isPressedArrowDown = true
-      break
-    case 'ArrowLeft':
-      isPressedArrowLeft = true
-      break
-    case 'ArrowRight':
-      isPressedArrowRight = true
-      break
-    case ' ':
-      isPressedSpace = true
-      break
+function setKeyStatusWhenKeyDown(e: KeyboardEvent) {
+  console.log(e.key === ' ' ? 'Space' : e.key)
+  if (e.key === 'ArrowUp' || e.key === 'w') {
+    isPressedArrowUp = true
+  }
+  if (e.key === 'ArrowDown' || e.key === 's') {
+    isPressedArrowDown = true
+  }
+  if (e.key === 'ArrowLeft' || e.key === 'a') {
+    isPressedArrowLeft = true
+  }
+  if (e.key === 'ArrowRight' || e.key === 'd') {
+    isPressedArrowRight = true
+  }
+  if (e.key === ' ') {
+    isPressedSpace = true
   }
 }
-function setKeyStatusWhenKeyUp(event: KeyboardEvent) {
-  switch (event.key) {
-    case 'ArrowUp':
-      isPressedArrowUp = false
-      break
-    case 'ArrowDown':
-      isPressedArrowDown = false
-      break
-    case 'ArrowLeft':
-      isPressedArrowLeft = false
-      break
-    case 'ArrowRight':
-      isPressedArrowRight = false
-      break
-    case ' ':
-      isPressedSpace = false
-      break
+function setKeyStatusWhenKeyUp(e: KeyboardEvent) {
+  console.log('--', e.key === ' ' ? 'Space' : e.key)
+  if (e.key === 'ArrowUp' || e.key === 'w') {
+    isPressedArrowUp = false
+  }
+  if (e.key === 'ArrowDown' || e.key === 's') {
+    isPressedArrowDown = false
+  }
+  if (e.key === 'ArrowLeft' || e.key === 'a') {
+    isPressedArrowLeft = false
+  }
+  if (e.key === 'ArrowRight' || e.key === 'd') {
+    isPressedArrowRight = false
+  }
+  if (e.key === ' ') {
+    isPressedSpace = false
   }
 }
 

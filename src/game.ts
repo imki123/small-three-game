@@ -209,16 +209,16 @@ function addDefaultText(font: Font, text: string) {
 
 export function setKeyStatusWhenKeyDown(e: KeyboardEvent) {
   console.log(e.key === ' ' ? 'Space' : e.key)
-  if (e.key === 'ArrowUp') {
+  if (e.key === 'ArrowUp' || e.key === 'w') {
     isPressedArrowUp = true
   }
-  if (e.key === 'ArrowDown') {
+  if (e.key === 'ArrowDown' || e.key === 's') {
     isPressedArrowDown = true
   }
-  if (e.key === 'ArrowLeft') {
+  if (e.key === 'ArrowLeft' || e.key === 'a') {
     isPressedArrowLeft = true
   }
-  if (e.key === 'ArrowRight') {
+  if (e.key === 'ArrowRight' || e.key === 'd') {
     isPressedArrowRight = true
   }
   if (e.key === ' ') {
@@ -237,16 +237,16 @@ export function setKeyStatusWhenKeyDown(e: KeyboardEvent) {
 
 export function setKeyStatusWhenKeyUp(e: KeyboardEvent) {
   console.log('--', e.key === ' ' ? 'Space' : e.key)
-  if (e.key === 'ArrowUp') {
+  if (e.key === 'ArrowUp' || e.key === 'w') {
     isPressedArrowUp = false
   }
-  if (e.key === 'ArrowDown') {
+  if (e.key === 'ArrowDown' || e.key === 's') {
     isPressedArrowDown = false
   }
-  if (e.key === 'ArrowLeft') {
+  if (e.key === 'ArrowLeft' || e.key === 'a') {
     isPressedArrowLeft = false
   }
-  if (e.key === 'ArrowRight') {
+  if (e.key === 'ArrowRight' || e.key === 'd') {
     isPressedArrowRight = false
   }
   if (e.key === ' ') {
