@@ -58,10 +58,10 @@ async function StartGame() {
   light.shadow.camera.far = 500 // default
   light.shadow.camera.visible = true // default false
   light.shadow.camera.scale.set(10, 10, 10) // size
-
   scene.add(light)
-
   scene.add(new THREE.CameraHelper(light.shadow.camera))
+  const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+  scene.add(ambientLight)
 
   scene.children.forEach((child) => {
     if (child instanceof THREE.Mesh) {
@@ -74,7 +74,7 @@ async function StartGame() {
   const planeGeometry = new THREE.PlaneGeometry(80, 100, 32, 32)
   planeGeometry.rotateX(-Math.PI / 2)
   planeGeometry.translate(0, 0, 0)
-  const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 })
+  const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x555555 })
   const plane = new THREE.Mesh(planeGeometry, planeMaterial)
   plane.receiveShadow = true
   scene.add(plane)
@@ -177,7 +177,7 @@ function moveTextRepeatedly(text?: THREE.Mesh) {
 
 function addDefaultCube(size = 1) {
   const boxGeometry = new THREE.BoxGeometry(size, size, size)
-  const coloredMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 })
+  const coloredMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 })
   const mesh = new THREE.Mesh(boxGeometry, coloredMaterial)
   scene.add(mesh)
   return mesh
@@ -186,7 +186,7 @@ function addDefaultCube(size = 1) {
 // add default sphere
 function addDefaultSphere(radius = 0.5) {
   const sphereGeometry = new THREE.SphereGeometry(radius, 32, 32)
-  const coloredMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 })
+  const coloredMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 })
   const mesh = new THREE.Mesh(sphereGeometry, coloredMaterial)
   scene.add(mesh)
   return mesh
@@ -201,7 +201,7 @@ function addDefaultText(font: Font, text: string) {
     curveSegments: 12,
     bevelEnabled: false,
   })
-  const textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 })
+  const textMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 })
   const mesh = new THREE.Mesh(textGeometry, textMaterial)
   scene.add(mesh)
   return mesh

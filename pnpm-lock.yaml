@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  '@types/cannon':
+    specifier: ^0.1.12
+    version: 0.1.12
+
 devDependencies:
   '@types/three':
     specifier: ^0.159.0
@@ -14,6 +19,9 @@ devDependencies:
   '@typescript-eslint/parser':
     specifier: ^6.15.0
     version: 6.15.0(eslint@8.56.0)(typescript@5.3.3)
+  cannon:
+    specifier: ^0.6.2
+    version: 0.6.2
   eslint:
     specifier: ^8.0.1
     version: 8.56.0
@@ -438,6 +446,10 @@ packages:
     dev: true
     optional: true
 
+  /@types/cannon@0.1.12:
+    resolution: {integrity: sha512-YzVDrjM+H1IH4pnw23nDFDXaWEyvYIq/Tmp75wg9CmtIiBJd3GtXzo5UXp+bAgk76fom9RhSlQIzHT8haF5VuQ==}
+    dev: false
+
   /@types/json-schema@7.0.15:
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
     dev: true
@@ -769,6 +781,10 @@ packages:
   /callsites@3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
     engines: {node: '>=6'}
+    dev: true
+
+  /cannon@0.6.2:
+    resolution: {integrity: sha512-n/7wWSXr8KOSvjad2x0fJHgpMepKjOKi+NdSnjfYyijoDBZnp4JQKgPcpv28jlXoWM+N9zVYU09J0A6Qxx+Y7w==}
     dev: true
 
   /chalk@4.1.2:
