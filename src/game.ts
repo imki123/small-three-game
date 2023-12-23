@@ -1,13 +1,27 @@
 import * as THREE from 'three'
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js'
-import { camera, defaultFont, renderer, scene } from './initThree'
-import { startRender } from './utils'
-import { initThree } from './initThree'
+import {
+  CheckWebGLAvailable,
+  initCamera,
+  initRenderer,
+  initScene,
+  loadFont,
+} from './initThree'
+import { Font } from 'three/examples/jsm/Addons.js'
 
-// Start game
-console.log('# this is game.ts')
-initThree().then(() => {
-  // create objectives
+// Check if WebGL is available
+CheckWebGLAvailable()
+
+// Init Three.js
+export const renderer = initRenderer()
+export const camera = initCamera()
+export const scene = initScene()
+
+StartGame()
+
+async function StartGame() {
+  const font = await loadFont()
+
   const greenCube = addDefaultCube(8)
   greenCube.material.color.setHex(0x00ff00)
   greenCube.position.x = -20
@@ -28,7 +42,7 @@ initThree().then(() => {
   yellowSphere.position.z = 30
   greenCube.position.y = 4
 
-  const welcomeText = addDefaultText('안녕하세요~')
+  const welcomeText = addDefaultText(font, '안녕하세요~')
   welcomeText.position.x = 5
   welcomeText.position.y = 10
 
@@ -69,11 +83,11 @@ initThree().then(() => {
   window.addEventListener('keyup', setKeyStatusWhenKeyUp)
   window.addEventListener('resize', setCameraAspectWhenResize)
 
-  startRender(() => {
+  animate(() => {
     moveMaterial(yellowSphere)
     moveTextRepeatedly(welcomeText)
   })
-})
+}
 
 // keyboard control
 let isPressedArrowUp = false
@@ -179,9 +193,9 @@ function addDefaultSphere(radius = 0.5) {
 }
 
 // add default text
-function addDefaultText(text: string) {
+function addDefaultText(font: Font, text: string) {
   const textGeometry = new TextGeometry(text, {
-    font: defaultFont,
+    font: font,
     size: 3, // font size
     height: 0.1, // font depth
     curveSegments: 12,
@@ -244,4 +258,16 @@ export function setCameraAspectWhenResize() {
   renderer.setSize(window.innerWidth, window.innerHeight)
   camera.aspect = window.innerWidth / window.innerHeight
   camera.updateProjectionMatrix()
+}
+
+let animationFrameId = 0
+export function animate(callback?: () => void) {
+  callback?.()
+  renderer.render(scene, camera)
+  animationFrameId = requestAnimationFrame(() => {
+    animate(callback)
+  })
+}
+export function cancelRender() {
+  cancelAnimationFrame(animationFrameId)
 }
