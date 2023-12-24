@@ -8,6 +8,7 @@ import {
   loadFont,
 } from './initThree'
 import { Font } from 'three/examples/jsm/Addons.js'
+import Stats from 'stats.js'
 
 // Check if WebGL is available
 CheckWebGLAvailable()
@@ -265,14 +266,17 @@ export function setCameraAspectWhenResize(
   camera.updateProjectionMatrix()
 }
 
-let animationFrameId = 0
+// 성능 측정
+const stats = new Stats()
+stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild(stats.dom)
+
 export function animate(callback?: () => void) {
+  stats.begin()
   callback?.()
   renderer.render(scene, camera)
-  animationFrameId = requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
     animate(callback)
   })
-}
-export function cancelRender() {
-  cancelAnimationFrame(animationFrameId)
+  stats.end()
 }
