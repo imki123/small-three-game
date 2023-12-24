@@ -81,7 +81,9 @@ async function StartGame() {
 
   window.addEventListener('keydown', setKeyStatusWhenKeyDown)
   window.addEventListener('keyup', setKeyStatusWhenKeyUp)
-  window.addEventListener('resize', setCameraAspectWhenResize)
+  window.addEventListener('resize', () =>
+    setCameraAspectWhenResize(renderer, camera)
+  )
 
   animate(() => {
     moveMaterial(yellowSphere)
@@ -254,7 +256,10 @@ export function setKeyStatusWhenKeyUp(e: KeyboardEvent) {
   }
 }
 
-export function setCameraAspectWhenResize() {
+export function setCameraAspectWhenResize(
+  renderer: THREE.WebGLRenderer,
+  camera: THREE.PerspectiveCamera
+) {
   renderer.setSize(window.innerWidth, window.innerHeight)
   camera.aspect = window.innerWidth / window.innerHeight
   camera.updateProjectionMatrix()

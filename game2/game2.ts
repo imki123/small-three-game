@@ -45,7 +45,9 @@ controls.target.set(0, 0, 0)
 controls.update()
 
 // 카메라 비율 설정
-window.addEventListener('resize', setCameraAspectWhenResize)
+window.addEventListener('resize', () =>
+  setCameraAspectWhenResize(renderer, camera)
+)
 
 // 바닥 생성. 정사각형 모양
 const groundSize = 80
