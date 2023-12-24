@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@types/cannon": "^0.1.12",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "stats.js": "^0.17.0"
   }
 }

@@ -3,6 +3,7 @@ import Cannon from 'cannon'
 import { initCamera, initRenderer, initScene } from '../src/initThree'
 import { OrbitControls } from 'three/examples/jsm/Addons.js'
 import { setCameraAspectWhenResize } from '../src/game'
+import Stats from 'stats.js'
 
 // Cannon.js 초기화
 const world = new Cannon.World()
@@ -24,7 +25,7 @@ camera.lookAt(0, 0, 0)
 
 //Create a DirectionalLight and turn on shadows for the light
 const light = new THREE.DirectionalLight(0xffffff, 1)
-light.position.set(50, 50, 50)
+light.position.set(80, 80, 80)
 light.castShadow = true // default false
 light.receiveShadow = true
 light.shadow.mapSize.width = 5120 // default
@@ -32,7 +33,7 @@ light.shadow.mapSize.height = 5120 // default
 light.shadow.camera.near = 0.5 // default
 light.shadow.camera.far = 500 // default
 light.shadow.camera.visible = true // default false
-light.shadow.camera.scale.set(10, 10, 10) // size
+light.shadow.camera.scale.set(20, 20, 20) // size
 scene.add(light)
 scene.add(new THREE.CameraHelper(light.shadow.camera))
 const ambientLight = new THREE.AmbientLight(0xffffff, 1)
@@ -46,29 +47,17 @@ controls.update()
 // 카메라 비율 설정
 window.addEventListener('resize', setCameraAspectWhenResize)
 
-// 바닥 생성
-const groundShape = new Cannon.Plane()
+// 바닥 생성. 정사각형 모양
+const groundSize = 80
+const groundShape = new Cannon.Box(new Cannon.Vec3(groundSize, 1, groundSize))
 const groundBody = new Cannon.Body({ mass: 0, shape: groundShape })
-groundBody.position.set(0, 0, 0)
-groundBody.quaternion.setFromAxisAngle(new Cannon.Vec3(1, 0, 0), -Math.PI / 2)
+groundBody.position.set(0, -1, 0)
 groundBody.material = new Cannon.Material('groundMaterial')
-// 바닥 사이즈 설정
-const groundBodySize = 80
-groundShape.worldNormal.set(0, 0, 0)
-groundShape.worldNormalNeedsUpdate = true
-groundShape.boundingSphereRadius = groundBodySize
-// 바닥 마찰력 설정
-groundBody.angularDamping = 1000
-groundBody.linearDamping = 1000
 world.addBody(groundBody)
-const groundGeometry = new THREE.PlaneGeometry(
-  groundBodySize * 2,
-  groundBodySize * 2
-)
-const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x555555 })
+const groundGeometry = new THREE.BoxGeometry(groundSize * 2, 2, groundSize * 2)
+const groundMaterial = new THREE.MeshStandardMaterial({ color: 0xaaaaaa })
 const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial)
 groundMesh.receiveShadow = true
-groundMesh.castShadow = true
 scene.add(groundMesh)
 
 // 구체 생성
@@ -85,9 +74,15 @@ let isJumping = false
 window.addEventListener('keydown', setKeyStatusWhenKeyDown)
 window.addEventListener('keyup', setKeyStatusWhenKeyUp)
 
+// 성능 측정
+const stats = new Stats()
+stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild(stats.dom)
+
 animate()
 
 function animate() {
+  stats.begin()
   requestAnimationFrame(animate)
 
   // 물리 시뮬레이션 업데이트
@@ -129,6 +124,7 @@ function animate() {
   }
 
   renderer.render(scene, camera)
+  stats.end()
 }
 
 // 물리 객체와 three.js 객체 동기화
